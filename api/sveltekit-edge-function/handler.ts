@@ -1,13 +1,18 @@
-import type { RequestContext } from '@vercel/edge';
- 
 export const config = {
   runtime: 'edge',
-};
- 
-export default function MyEdgeFunction(
-  request: Request,
-  context: RequestContext,
-) {
-  console.log("---------OK----------")
-  return new Response(`Hello, from ${request.url} I'm an Edge Function!`);
+}
+
+export default async function handler(req) {
+  return new Response(
+    JSON.stringify({
+      message: 'Hello, world!',
+    }),
+    {
+      status: 200,
+      headers: {
+        'content-type': 'application/json',
+        'cache-control': 'public, s-maxage=1200, stale-while-revalidate=600',
+      },
+    }
+  )
 }
